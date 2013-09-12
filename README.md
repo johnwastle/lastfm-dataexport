@@ -22,15 +22,18 @@ Assuming you have a MySQL table as follows:
     )
 
 You can load data from the 'tracks.tsv' file with
+
     LOAD DATA LOCAL INFILE 'tracks.tsv' INTO TABLE tracks FIELDS TERMINATED BY '\t' ENCLOSED BY '"' ;
 
 
 ##Known issues
 
 Track names that include backslashes need to be escaped.
+
 '/ / M \ \' by Health is the only example I can find though.
+
 http://www.last.fm/music/Health/_/%2F%2FM%5C%5C
 
 
-select * from tracks where track like '/ / M%';
-update tracks set track='/ / M \\ \\', album= 'HEALTH' where track like '/ / M%';
+    select * from tracks where track like '/ / M%';
+    update tracks set track='/ / M \\ \\', album= 'HEALTH' where track like '/ / M%';
