@@ -1,6 +1,6 @@
 lastfm-dataexport
 =================
-###Execute LastFmExportTracksToTabDelimitedFile to export last.fm tracks to a tab-delimited text file.
+####Execute LastFmExportTracksToTabDelimitedFile to export last.fm tracks to a tab-delimited text file.
 
 This code example writes:
     Artist,
@@ -25,7 +25,7 @@ You can load data from the 'tracks.tsv' file with
 
     LOAD DATA LOCAL INFILE 'tracks.tsv' INTO TABLE tracks FIELDS TERMINATED BY '\t' ENCLOSED BY '"' ;
 
-###Execute LastFmExportTracksToRawJsonFile to export last.fm tracks to a text file.
+####Execute LastFmExportTracksToRawJsonFile to export last.fm tracks to a text file.
 
 Each line in the JSON file represents a scrobble
 
