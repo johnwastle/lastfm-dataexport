@@ -16,7 +16,7 @@ public class LastFmExportTracksToTabDelimitedFile {
     public static String TAB = "\t";
     public static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     public static String DEFAULT_ACCOUNT = "johnwastle";
-    public static String API_KEY = "";        // get one of these from http://www.last.fm/api/account/create
+    public static String API_KEY = "3b0c397650d6804f204708e08ed0b26b";        // get one of these from http://www.last.fm/api/account/create
 
     private static ObjectMapper mapper = new ObjectMapper();
     private static HttpRequestExecutor httpRequestExecutor = new HttpRequestExecutor();

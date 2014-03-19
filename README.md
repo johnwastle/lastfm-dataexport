@@ -1,11 +1,11 @@
 lastfm-dataexport
 =================
-Execute LastFmExportTracksToTabDelimitedFile to export last.fm tracks to a tab-delimited text file.
+###Execute LastFmExportTracksToTabDelimitedFile to export last.fm tracks to a tab-delimited text file.
 
 This code example writes:
-    Artist
-    Track name
-    Album name
+    Artist,
+    Track name,
+    Album name,
     Scrobble timestamp
 
 Assuming you have a MySQL table as follows:
@@ -25,10 +25,14 @@ You can load data from the 'tracks.tsv' file with
 
     LOAD DATA LOCAL INFILE 'tracks.tsv' INTO TABLE tracks FIELDS TERMINATED BY '\t' ENCLOSED BY '"' ;
 
+###Execute LastFmExportTracksToRawJsonFile to export last.fm tracks to a text file.
+
+Each line in the JSON file represents a scrobble
+
 
 ##Known issues
 
-Track names that include backslashes need to be escaped.
+In the tsv, track names that include backslashes need to be escaped.
 
 '/ / M \ \' by Health is the only example I can find though.
 

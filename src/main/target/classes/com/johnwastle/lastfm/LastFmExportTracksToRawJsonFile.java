@@ -11,12 +11,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
 
-public class LastFmExportTracksToTabDelimitedFile {
+public class LastFmExportTracksToRawJsonFile {
 
     public static String TAB = "\t";
     public static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     public static String DEFAULT_ACCOUNT = "johnwastle";
-    public static String API_KEY = "";        // get one of these from http://www.last.fm/api/account/create
+    public static String API_KEY = "3b0c397650d6804f204708e08ed0b26b";        // get one of these from http://www.last.fm/api/account/create
 
     private static ObjectMapper mapper = new ObjectMapper();
     private static HttpRequestExecutor httpRequestExecutor = new HttpRequestExecutor();
@@ -32,7 +32,7 @@ public class LastFmExportTracksToTabDelimitedFile {
         if (args.length>1) { startPage = Integer.parseInt( args[1] ); }
         if (args.length>2) { endPage = Integer.parseInt( args[2] ); }
 
-        (new LastFmExportTracksToTabDelimitedFile() ).processAccount(account, startPage, endPage);
+        (new LastFmExportTracksToRawJsonFile() ).processAccount(account, startPage, endPage);
 
     }
 
@@ -46,39 +46,43 @@ public class LastFmExportTracksToTabDelimitedFile {
             System.out.println(url);
 
             String response = httpRequestExecutor.getURLContents(url);
+            System.out.println(response);
 
             //wait(200);    // throttle calls to last.fm API, if they execute too quickly
 
             // Jackson "Raw" Data Binding:
             // http://wiki.fasterxml.com/JacksonInFiveMinutes#A.22Raw.22_Data_Binding_Example
             // could use
-            // ArrayList tracks0 = getTrackListFromResponseUsingJacksonRawDataBinding(response);
+             ArrayList<String> tracksList = getTrackListFromResponseUsingJacksonRawDataBinding(response);
+            System.out.println(tracksList.size());
+            System.out.println(tracksList.get(0).toString());
 
             // Full Data Binding (POJO):
             // http://wiki.fasterxml.com/JacksonInFiveMinutes#Full_Data_Binding_.28POJO.29_Example
-            Tracks tracks = mapper.readValue(response, Tracks.class);
-            ArrayList<Track> tracksList = tracks.getRecenttracks().getTrack();
+            //Tracks tracks = mapper.readValue(response, Tracks.class);
+            //ArrayList<Track> tracksList = tracks.getRecenttracks().getTrack();
 
             for (int j=0; j < tracksList.size(); j++) {
-                String trackAsTabDelimited = formatTrackToTabDelimitedString(tracksList.get(j));
-                writer.println(trackAsTabDelimited);
+//                String trackAsTabDelimited = formatTrackToTabDelimitedString(tracksList.get(j));
+                String trackJson = tracksList.get(j);
+                writer.println(trackJson);
             }
         }
 
         writer.close();
     }
 
-    private String formatTrackToTabDelimitedString(Track track) {
-        StringBuffer trackDetail = new StringBuffer();
-        trackDetail.append(track.getArtist().getText());
-        trackDetail.append(TAB);
-        trackDetail.append(track.getName());
-        trackDetail.append(TAB);
-        trackDetail.append(track.getAlbum().getText());
-        trackDetail.append(TAB);
-        trackDetail.append(DATE_FORMAT.format(new Date(track.getDate().getUts()*1000)));
-        return trackDetail.toString();
-    }
+//    private String formatTrackToTabDelimitedString(Track track) {
+//        StringBuffer trackDetail = new StringBuffer();
+//        trackDetail.append(track.getArtist().getText());
+//        trackDetail.append(TAB);
+//        trackDetail.append(track.getName());
+//        trackDetail.append(TAB);
+//        trackDetail.append(track.getAlbum().getText());
+//        trackDetail.append(TAB);
+//        trackDetail.append(DATE_FORMAT.format(new Date(track.getDate().getUts()*1000)));
+//        return trackDetail.toString();
+//    }
 
 
     private ArrayList getTrackListFromResponseUsingJacksonRawDataBinding(String response) throws IOException {
